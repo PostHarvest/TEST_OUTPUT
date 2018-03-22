@@ -1,0 +1,417 @@
+CCS PCH C Compiler, Version 5.015, 5967               21-Mar-18 19:26
+
+               Filename:   D:\DU LIEU\bsd1\BSD\BSD datasheet\MAX31855\timer second -06 Mar_2018 -13_MAR_18\main.lst
+
+               ROM used:   684 bytes (4%)
+                           Largest free fragment is 15696
+               RAM used:   26 (3%) at main() level
+                           31 (4%) worst case
+               Stack used: 3 locations (2 in main + 1 for interrupts)
+               Stack size: 31
+
+*
+0000:  GOTO   01F4
+*
+0008:  MOVWF  04
+000A:  MOVFF  FD8,05
+000E:  MOVFF  FE0,06
+0012:  MOVLB  0
+0014:  MOVFF  FE9,0C
+0018:  MOVFF  FEA,07
+001C:  MOVFF  FE1,08
+0020:  MOVFF  FE2,09
+0024:  MOVFF  FD9,0A
+0028:  MOVFF  FDA,0B
+002C:  MOVFF  FF3,12
+0030:  MOVFF  FF4,13
+0034:  MOVFF  FFA,14
+0038:  MOVFF  00,0E
+003C:  MOVFF  01,0F
+0040:  MOVFF  02,10
+0044:  MOVFF  03,11
+0048:  BTFSS  F9D.0
+004A:  GOTO   0054
+004E:  BTFSC  F9E.0
+0050:  GOTO   0096
+0054:  MOVFF  0E,00
+0058:  MOVFF  0F,01
+005C:  MOVFF  10,02
+0060:  MOVFF  11,03
+0064:  MOVFF  0C,FE9
+0068:  MOVFF  07,FEA
+006C:  BSF    07.7
+006E:  MOVFF  08,FE1
+0072:  MOVFF  09,FE2
+0076:  MOVFF  0A,FD9
+007A:  MOVFF  0B,FDA
+007E:  MOVFF  12,FF3
+0082:  MOVFF  13,FF4
+0086:  MOVFF  14,FFA
+008A:  MOVF   04,W
+008C:  MOVFF  06,FE0
+0090:  MOVFF  05,FD8
+0094:  RETFIE 0
+.................... ///////////////////////////////////////////////////////////////////////// 
+.................... ////                           EX_STWT1.C                            //// 
+.................... ////                                                                 //// 
+.................... ////  This program uses timer 1 and interrupts to keep a             //// 
+.................... ////  real time seconds counter.  A simple stop watch function is    //// 
+.................... ////  then implemented.                                              //// 
+.................... ////                                                                 //// 
+.................... ////  Jumpers:                                                       //// 
+.................... ////     PCM,PCH    pin C7 to RS232 RX, pin C6 to RS232 TX           //// 
+.................... ////                                                                 //// 
+.................... ////  This example will work with the PCM and PCH compilers.  The    //// 
+.................... ////  following conditional compilation lines are used to include a  //// 
+.................... ////  valid device for each compiler.  Change the device, clock and  //// 
+.................... ////  RS232 pins for your hardware if needed.                        //// 
+.................... ///////////////////////////////////////////////////////////////////////// 
+.................... ////        (C) Copyright 1996,2004 Custom Computer Services         //// 
+.................... //// This source code may only be used by licensed users of the CCS  //// 
+.................... //// C compiler.  This source code may only be distributed to other  //// 
+.................... //// licensed users of the CCS C compiler.  No other use,            //// 
+.................... //// reproduction or distribution is permitted without written       //// 
+.................... //// permission.  Derivative programs created using this software    //// 
+.................... //// in object code form are not restricted in any way.              //// 
+.................... ///////////////////////////////////////////////////////////////////////// 
+....................  
+....................  
+....................  
+.................... #include <18F2480.h> 
+.................... //////////// Standard Header file for the PIC18F2480 device //////////////// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... ////        (C) Copyright 1996, 2013 Custom Computer Services          //// 
+.................... //// This source code may only be used by licensed users of the CCS C  //// 
+.................... //// compiler.  This source code may only be distributed to other      //// 
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction //// 
+.................... //// or distribution is permitted without written permission.          //// 
+.................... //// Derivative programs created using this software in object code    //// 
+.................... //// form are not restricted in any way.                               //// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... #device PIC18F2480 
+*
+00A8:  DATA 50,72
+00AA:  DATA 65,73
+00AC:  DATA 73,20
+00AE:  DATA 61,6E
+00B0:  DATA 79,20
+00B2:  DATA 6B,65
+00B4:  DATA 79,20
+00B6:  DATA 74,6F
+00B8:  DATA 20,62
+00BA:  DATA 65,67
+00BC:  DATA 69,6E
+00BE:  DATA 2E,0A
+00C0:  DATA 0D,00
+00C2:  DATA 25,75
+00C4:  DATA 20,76
+00C6:  DATA 61,6C
+00C8:  DATA 75,65
+00CA:  DATA 31,0A
+00CC:  DATA 0D,00
+00CE:  DATA 50,72
+00D0:  DATA 65,73
+00D2:  DATA 73,20
+00D4:  DATA 61,6E
+00D6:  DATA 79,20
+00D8:  DATA 6B,65
+00DA:  DATA 79,20
+00DC:  DATA 74,6F
+00DE:  DATA 20,73
+00E0:  DATA 74,6F
+00E2:  DATA 70,2E
+00E4:  DATA 0A,0D
+00E6:  DATA 00,00
+00E8:  DATA 25,75
+00EA:  DATA 20,73
+00EC:  DATA 65,63
+00EE:  DATA 6F,6E
+00F0:  DATA 64,73
+00F2:  DATA 2E,0A
+00F4:  DATA 0D,00
+00F6:  TBLRD*+
+00F8:  MOVF   FF5,F
+00FA:  BZ    0116
+00FC:  MOVFF  FF6,1A
+0100:  MOVFF  FF7,1B
+0104:  MOVF   FF5,W
+0106:  BTFSS  F9E.4
+0108:  BRA    0106
+010A:  MOVWF  FAD
+010C:  MOVFF  1A,FF6
+0110:  MOVFF  1B,FF7
+0114:  BRA    00F6
+0116:  RETURN 0
+0118:  MOVF   1D,W
+011A:  CLRF   01
+011C:  SUBWF  1C,W
+011E:  BC    0126
+0120:  MOVFF  1C,00
+0124:  BRA    013E
+0126:  CLRF   00
+0128:  MOVLW  08
+012A:  MOVWF  1E
+012C:  RLCF   1C,F
+012E:  RLCF   00,F
+0130:  MOVF   1D,W
+0132:  SUBWF  00,W
+0134:  BTFSC  FD8.0
+0136:  MOVWF  00
+0138:  RLCF   01,F
+013A:  DECFSZ 1E,F
+013C:  BRA    012C
+013E:  RETURN 0
+0140:  MOVF   01,W
+0142:  MOVFF  1A,1C
+0146:  MOVLW  64
+0148:  MOVWF  1D
+014A:  RCALL  0118
+014C:  MOVFF  00,1A
+0150:  MOVF   01,W
+0152:  MOVLW  30
+0154:  BNZ   0164
+0156:  BTFSS  1B.1
+0158:  BRA    0174
+015A:  BTFSC  1B.3
+015C:  BRA    0174
+015E:  BTFSC  1B.4
+0160:  MOVLW  20
+0162:  BRA    016A
+0164:  BCF    1B.3
+0166:  BCF    1B.4
+0168:  BSF    1B.0
+016A:  ADDWF  01,F
+016C:  MOVF   01,W
+016E:  BTFSS  F9E.4
+0170:  BRA    016E
+0172:  MOVWF  FAD
+0174:  MOVFF  1A,1C
+0178:  MOVLW  0A
+017A:  MOVWF  1D
+017C:  RCALL  0118
+017E:  MOVFF  00,1A
+0182:  MOVF   01,W
+0184:  MOVLW  30
+0186:  BNZ   0194
+0188:  BTFSC  1B.3
+018A:  BRA    019E
+018C:  BTFSS  1B.0
+018E:  BRA    019E
+0190:  BTFSC  1B.4
+0192:  MOVLW  20
+0194:  ADDWF  01,F
+0196:  MOVF   01,W
+0198:  BTFSS  F9E.4
+019A:  BRA    0198
+019C:  MOVWF  FAD
+019E:  MOVLW  30
+01A0:  ADDWF  1A,F
+01A2:  MOVF   1A,W
+01A4:  BTFSS  F9E.4
+01A6:  BRA    01A4
+01A8:  MOVWF  FAD
+01AA:  RETURN 0
+01AC:  TBLRD*+
+01AE:  MOVFF  FF6,1B
+01B2:  MOVFF  FF7,1C
+01B6:  MOVF   FF5,W
+01B8:  BTFSS  F9E.4
+01BA:  BRA    01B8
+01BC:  MOVWF  FAD
+01BE:  MOVFF  1B,FF6
+01C2:  MOVFF  1C,FF7
+01C6:  DECFSZ 1A,F
+01C8:  BRA    01AC
+01CA:  RETURN 0
+....................  
+.................... #list 
+....................  
+.................... #fuses HS,NOWDT,NOPROTECT,NOLVP 
+.................... #use delay(clock=20000000) 
+01CC:  CLRF   FEA
+01CE:  MOVLW  1B
+01D0:  MOVWF  FE9
+01D2:  MOVF   FEF,W
+01D4:  BZ    01F0
+01D6:  MOVLW  06
+01D8:  MOVWF  01
+01DA:  CLRF   00
+01DC:  DECFSZ 00,F
+01DE:  BRA    01DC
+01E0:  DECFSZ 01,F
+01E2:  BRA    01DA
+01E4:  MOVLW  7B
+01E6:  MOVWF  00
+01E8:  DECFSZ 00,F
+01EA:  BRA    01E8
+01EC:  DECFSZ FEF,F
+01EE:  BRA    01D6
+01F0:  GOTO   02A8 (RETURN)
+.................... #use rs232(baud=9600, xmit=PIN_C6, rcv=PIN_C7,ERRORS) 
+....................  
+....................  
+.................... #define INTS_PER_SECOND 19         // (20000000/(4*4*65536)) 
+....................  
+.................... int8 seconds;      // A running seconds counter 
+.................... int8 int_count;    // Number of interrupts left before a second has elapsed 
+....................  
+....................  
+.................... #INT_TIMER1                        // This function is called every time 
+.................... void clock_isr() {                 // timer 1 overflows (65535->0), which is 
+....................                                    // approximately 19 times per second for 
+....................     if(--int_count==0) {           // this program. 
+*
+0096:  DECF   18,F
+0098:  MOVF   18,F
+009A:  BNZ   00A2
+....................       ++seconds; 
+009C:  INCF   17,F
+....................       int_count = INTS_PER_SECOND; 
+009E:  MOVLW  13
+00A0:  MOVWF  18
+....................     } 
+....................     
+00A2:  BCF    F9E.0
+00A4:  GOTO   0054
+.................... } 
+....................  
+....................  
+.................... void main() { 
+*
+01F4:  CLRF   FF8
+01F6:  BCF    FD0.7
+01F8:  BSF    07.7
+01FA:  CLRF   16
+01FC:  BSF    FB8.3
+01FE:  MOVLW  08
+0200:  MOVWF  FAF
+0202:  MOVLW  02
+0204:  MOVWF  FB0
+0206:  MOVLW  A6
+0208:  MOVWF  FAC
+020A:  MOVLW  90
+020C:  MOVWF  FAB
+020E:  MOVF   FC1,W
+0210:  ANDLW  C0
+0212:  IORLW  0F
+0214:  MOVWF  FC1
+....................  
+....................    setup_ccp1(CCP_PWM);   // Configure CCP1 as a PWM 
+0216:  BCF    F94.2
+0218:  BCF    F8B.2
+021A:  MOVLW  0C
+021C:  MOVWF  FBD
+....................    setup_timer_2(T2_DIV_BY_16, 24, 1); // 1.2kHZ 
+021E:  MOVLW  00
+0220:  IORLW  06
+0222:  MOVWF  FCA
+0224:  MOVLW  18
+0226:  MOVWF  FCB
+....................    int_count = INTS_PER_SECOND; 
+0228:  MOVLW  13
+022A:  MOVWF  18
+....................    setup_timer_1(T1_INTERNAL | T1_DIV_BY_4); 
+022C:  MOVLW  A5
+022E:  MOVWF  FCD
+....................    set_timer1(0); 
+0230:  CLRF   FCF
+0232:  CLRF   FCE
+....................    enable_interrupts(INT_TIMER1); 
+0234:  BSF    F9D.0
+....................    enable_interrupts(GLOBAL); 
+0236:  MOVLW  C0
+0238:  IORWF  FF2,F
+....................  
+.................... seconds = 0; 
+023A:  CLRF   17
+.................... unsigned int8 value1;   
+....................    value1 = 0; 
+023C:  CLRF   19
+....................    while(TRUE) { 
+....................       printf("Press any key to begin.\n\r"); 
+023E:  MOVLW  A8
+0240:  MOVWF  FF6
+0242:  MOVLW  00
+0244:  MOVWF  FF7
+0246:  RCALL  00F6
+....................     // getc(); 
+....................       if(seconds == 3)//120 
+0248:  MOVF   17,W
+024A:  SUBLW  03
+024C:  BNZ   0250
+....................       { 
+....................       value1++; 
+024E:  INCF   19,F
+....................        
+....................        
+....................       } 
+....................       if(value1 > 100) 
+0250:  MOVF   19,W
+0252:  SUBLW  64
+0254:  BC    0258
+....................       { 
+....................       value1 = 0; 
+0256:  CLRF   19
+....................       } 
+....................      set_pwm1_duty(value1); 
+0258:  MOVFF  19,FBE
+....................       printf("%u value1\n\r", value1); 
+025C:  MOVFF  19,1A
+0260:  MOVLW  1B
+0262:  MOVWF  1B
+0264:  RCALL  0140
+0266:  MOVLW  C4
+0268:  MOVWF  FF6
+026A:  MOVLW  00
+026C:  MOVWF  FF7
+026E:  MOVLW  09
+0270:  MOVWF  1A
+0272:  RCALL  01AC
+....................       if(seconds >5) 
+0274:  MOVF   17,W
+0276:  SUBLW  05
+0278:  BC    027C
+....................       seconds = 0; 
+027A:  CLRF   17
+....................        
+....................       printf("Press any key to stop.\n\r"); 
+027C:  MOVLW  CE
+027E:  MOVWF  FF6
+0280:  MOVLW  00
+0282:  MOVWF  FF7
+0284:  RCALL  00F6
+....................    //   getc(); 
+....................       printf("%u seconds.\n\r", seconds); 
+0286:  MOVFF  17,1A
+028A:  MOVLW  1B
+028C:  MOVWF  1B
+028E:  RCALL  0140
+0290:  MOVLW  EA
+0292:  MOVWF  FF6
+0294:  MOVLW  00
+0296:  MOVWF  FF7
+0298:  MOVLW  0B
+029A:  MOVWF  1A
+029C:  RCALL  01AC
+....................       delay_ms(300); 
+029E:  MOVLW  02
+02A0:  MOVWF  1A
+02A2:  MOVLW  96
+02A4:  MOVWF  1B
+02A6:  BRA    01CC
+02A8:  DECFSZ 1A,F
+02AA:  BRA    02A2
+02AC:  BRA    023E
+....................       
+....................    } 
+.................... } 
+02AE:  SLEEP 
+
+Configuration Fuses:
+   Word  1: C200   HS FCMEN IESO
+   Word  2: 1E1E   PUT BROWNOUT BORV21 NOWDT WDT32768
+   Word  3: 8600   PBADEN LPT1OSC MCLR
+   Word  4: 0091   STVREN NOLVP BBSIZ2K NOXINST NODEBUG
+   Word  5: C00F   NOPROTECT NOCPB NOCPD
+   Word  6: E00F   NOWRT NOWRTC NOWRTB NOWRTD
+   Word  7: 400F   NOEBTR NOEBTRB

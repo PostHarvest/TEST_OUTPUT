@@ -1,0 +1,5 @@
+--- Info 300 "main.c" Line 752(0,4): More info:   ** Access violation at address 00000000. Read of address 00000000
+*** Error 44 "main.c" Line 752(0,4): Internal Error - Contact CCS
+--- Info 300 "main.c" Line 752(0,4): More info:   *3* Access violation at address 00000000. Read of address 00000000
+      1 Errors,  0 Warnings.
+Build Failed.

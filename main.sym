@@ -1,0 +1,97 @@
+000     @SCRATCH
+001     @SCRATCH
+001     _RETURN_
+002     @SCRATCH
+003     @SCRATCH
+004     @INTERRUPT_AREA
+005     @INTERRUPT_AREA
+006     @INTERRUPT_AREA
+007     @INTERRUPT_AREA
+008     @INTERRUPT_AREA
+009     @INTERRUPT_AREA
+00A     @INTERRUPT_AREA
+00B     @INTERRUPT_AREA
+00C     @INTERRUPT_AREA
+00D     @INTERRUPT_AREA
+00E     @INTERRUPT_AREA
+00F     @INTERRUPT_AREA
+010     @INTERRUPT_AREA
+011     @INTERRUPT_AREA
+012     @INTERRUPT_AREA
+013     @INTERRUPT_AREA
+014     @INTERRUPT_AREA
+015     @INTERRUPT_AREA
+016     rs232_errors
+017     seconds
+018     int_count
+019     MAIN.value1
+01A     @PRINTF_U_9600_31766_31767.P1
+01A     @PSTRINGCN_9600_31766_31767.P2
+01A     MAIN.@SCRATCH1
+01A     @PSTRINGC_9600_31766_31767.@SCRATCH1
+01B     @PRINTF_U_9600_31766_31767.P1
+01B     @delay_ms1.P2
+01B     @PSTRINGC_9600_31766_31767.@SCRATCH2
+01B     @PSTRINGCN_9600_31766_31767.@SCRATCH1
+01C     @DIV88.P1
+01C     @PSTRINGCN_9600_31766_31767.@SCRATCH2
+01D     @DIV88.P1
+01E     @DIV88.@SCRATCH1
+FBE     CCP_1
+FBE     CCP_1_LOW
+FBF     CCP_1_HIGH
+FE1-FE2 @WRITE_PACKED_MEMORY.P1
+FE1-FE2 @READ_PACKED_MEMORY.P2
+FE9-FEA @READ_PACKED_MEMORY.P1
+FE9-FEA @WRITE_PACKED_MEMORY.P2
+FE9-FEA @WRITE_PROGRAM_MEMORY.P3
+FE9-FEA @READ_PROGRAM_MEMORY.P4
+FF6-FF8 @WRITE_PROGRAM_MEMORY.P1
+FF6-FF8 @READ_PROGRAM_MEMORY.P2
+
+ROM Allocation:
+000096  clock_isr
+0000A8  @const632.call
+0000C2  @const634.call
+0000CE  @const643.call
+0000E8  @const644.call
+0000F6  @PSTRINGC_9600_31766_31767
+000118  @DIV88
+000140  @PRINTF_U_9600_31766_31767
+0001AC  @PSTRINGCN_9600_31766_31767
+0001CC  @delay_ms1
+0001F4  MAIN
+0001F4  @cinit1
+000216  @cinit2
+
+Project Directory:
+    D:\DU LIEU\bsd1\BSD\BSD datasheet\MAX31855\timer second -06 Mar_2018 -13_MAR_18\
+
+Project Files:
+    main.c                                                  [21-Mar-18 19:26  CRC=7196A19C]
+    C:\Program Files (x86)\PICC\Devices\18F2480.h           [12-Nov-13 15:35  CRC=E591B7CF]
+
+Source signature=3CBA113A
+
+Units:
+    main (main)
+
+Compiler Settings:
+    Processor:      PIC18F2480
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    XREF file:   main.xsym
+    Errors:      main.err
+    Ext Symbols: main.esym
+    INHX32:      main.hex
+    Symbols:     main.sym
+    List:        main.lst
+    Debug/COFF:  main.cof
+    Project:     main.ccspjt
+    Call Tree:   main.tre
+    Statistics:  main.STA
